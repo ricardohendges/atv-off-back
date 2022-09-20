@@ -15,7 +15,7 @@ const loginDupla = async (req, res) => {
         let posPonto = login.indexOf(':')
         duplasServices.loginDupla({user: login.substr(0, posPonto), pass: login.substr(posPonto+1)})
             .then(ret => {
-                res.cookie('auth', ret.token, {httpOnly: true, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7)}) 
+                res.cookie('auth', ret.token, {expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7)}) 
                 res.status(201).json(ret)
             })
             .catch(err => res.status(500).json(err.message))
