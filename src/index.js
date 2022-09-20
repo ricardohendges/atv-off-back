@@ -1,6 +1,9 @@
 const http = require('http')
 const express = require('express')
 const cors = require('cors')
+const cookie = require('cookie-parser')
+require('dotenv').config()
+
 
 const PORT = process.env.PORT_SERVER || 3000
 const app = express()
@@ -15,6 +18,7 @@ const corsOptions = {
     credentials: true
 }
 
+app.use(cookie())
 app.use(cors(corsOptions))
 app.use(express.json())
 
