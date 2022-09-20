@@ -9,6 +9,7 @@ const getduplas = async (req, res) => {
         res.status(500).json(err.message)
     }
 }
+
 const loginDupla = async (req, res) => {
     if (req.headers && req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1) {
         const login = decodeURIComponent(escape(atob(req.headers.authorization.substr(req.headers.authorization.indexOf('Basic') + 6))))
@@ -24,5 +25,10 @@ const loginDupla = async (req, res) => {
     }
 }
 
+const getUser = async (req, res) => {
+    res.status(201).json({id: req.body.id, nome: req.body.nome})
+}
+
+module.exports.getUser = getUser
 module.exports.loginDupla = loginDupla
 module.exports.getduplas = getduplas
