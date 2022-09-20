@@ -8,7 +8,7 @@ require('dotenv').config()
 const PORT = process.env.PORT_SERVER || 3000
 const app = express()
 
-let domains = process.env.APPLICATION_DOMAIN || ['http://localhost:3070']
+let domains = process.env.APPLICATION_DOMAIN || ['http://localhost:8080']
 const corsOptions = {
     origin: function (origin, callback) {
         if (domains.indexOf(origin) !== -1 || !origin) callback(null, true)
