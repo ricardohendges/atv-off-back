@@ -12,18 +12,22 @@ Por exemplo, para N = 10 a resposta é 3, pois é possível escrever N como a so
 ', 'A entrada consiste de uma única linha que contém um inteiro N (1 ≤ N ≤ 105).', 'Seu programa deve produzir uma única linha com um inteiro representando a menor quantidade de números fatoriais cuja soma é igual ao valor de N.');
 
 insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (3, 'C', '', '', '', '');
+               values (1, 'A', 1, 1234, 'atividade 1', 'descrição completa', 'entradas ... bla', 'saidas... bla');
 insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (4, 'D', '', '', '', '');
+               values (2, 'B', 1, 1234, 'atividade 2', 'descrição completa', 'entradas ... bla', 'saidas... bla');
 insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (5, 'E', '', '', '', '');
+               values (3, 'C', 1, 1234, 'atividade 3', 'descrição completa', 'entradas ... bla', 'saidas... bla');
 insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (6, 'F', '', '', '', '');
+               values (4, 'D', 1, 1234, 'atividade 4', 'descrição completa', 'entradas ... bla', 'saidas... bla');
 insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (7, 'G', '', '', '', '');
+               values (5, 'E', 1, 1234, 'atividade 5', 'descrição completa', 'entradas ... bla', 'saidas... bla');
 insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (8, 'H', '', '', '', '');
+               values (6, 'F', 1, 1234, 'atividade 6', 'descrição completa', 'entradas ... bla', 'saidas... bla');
 insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (9, 'I', '', '', '', '');
+               values (7, 'G', 1, 1234, 'atividade 7', 'descrição completa', 'entradas ... bla', 'saidas... bla');
 insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (10, 'J', '', '', '', '');
+               values (8, 'H', 1, 1234, 'atividade 8', 'descrição completa', 'entradas ... bla', 'saidas... bla');
+insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
+               values (9, 'I', 1, 1234, 'atividade 9', 'descrição completa', 'entradas ... bla', 'saidas... bla');
+insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
+               values (10, 'J', 1, 1234, 'atividade 10', 'descrição completa', 'entradas ... bla', 'saidas... bla');

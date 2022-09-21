@@ -45,5 +45,16 @@ const postSubmissao = async (params) => {
     }
 }
 
+const sql_updateSubmissao = 
+` update submissoes 
+     set sub_status = $1
+   where sub_id = $2 `
+
+const patchSubmissao = async (params) => {
+    const { sub_id, status } = params
+    return await db.query(sql_updateSubmissao, [status, sub_id])
+}
+
+module.exports.patchSubmissao = patchSubmissao
 module.exports.postSubmissao = postSubmissao
 module.exports.getSubmissao = getSubmissao
