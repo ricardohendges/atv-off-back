@@ -1,7 +1,7 @@
 const atividadeServices = require('../services/submissao')
 
 const getSubmissao = async (req, res) => {
-    atividadeServices.getSubmissao (req.body)
+    atividadeServices.getSubmissao (req.body, req.body.perfilAcesso.isADM)
         .then(ret => res.status(200).json(ret))
         .catch(err => res.status(500).json(err.message))
 }

@@ -4,9 +4,10 @@ const sql_getSubmissoes = `
 select submissoes.sub_id, 
        submissoes.sub_codigo,
        submissoes.sub_status,
-       submissoes.sub_data at time zone 'utc' at time zone 'America/Sao_Paulo' as sub_data,
+       submissoes.sub_data,
        atividade.atv_id, 
        atividade.atv_titulo,
+       atividade.atv_code,
        dupla.dup_id,
        dupla.dup_nome
   from submissoes 
@@ -15,9 +16,9 @@ select submissoes.sub_id,
  inner join dupla
     on (dupla.dup_id = submissoes.dup_id)`
 
-const getSubmissao = async (params) => {
+const getSubmissao = async (params, adm) => {
     let result = {rows: []}
-    if (!params.perfilAcesso.isADM) {
+    if (!adm) {
         let sql = sql_getSubmissoes + ' where submissoes.dup_id = $1 '
         let bind = params.perfilAcesso.dup_id
         result = await db.query(sql, [bind])
