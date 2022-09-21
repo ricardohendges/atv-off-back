@@ -1,4 +1,5 @@
-const http = require('http')
+// const http = require('http')
+const https = require('https')
 const express = require('express')
 const cors = require('cors')
 const cookie = require('cookie-parser')
@@ -26,13 +27,20 @@ app.use(express.json())
 require('./routes')(app)
 app.get('/', (req, res) => res.status(200).send('Maratona-BACK (x) UP!'))
 
-const httpServer = http.createServer(app)
+const fs = require('fs');
+const privateKey  = fs.readFileSync('./src/private/server.pem', 'utf8');
+const certificate = fs.readFileSync('./src/private/server.crt', 'utf8');
+const credentials = {key: privateKey, cert: certificate};
+
+// const httpServer = http.createServer(app)
+const httpsServer = https.createServer(credentials, app);
+// httpsServer.listen(8443)
 
 if (process.env.NODE_ENV != 'test') {
-    httpServer.listen(PORT, async () => {
+    httpsServer.listen(PORT, async () => {
         try {
-            const { address, port, family } = httpServer.address()
-            console.log(`App is running: ${family} http://${family === 'IPv6' ? `[${address}]` : address}:${port}`)
+            const { address, port, family } = httpsServer.address()
+            console.log(`App is running: ${family} https://${family === 'IPv6' ? `[${address}]` : address}:${port}`)
         } catch (err) {
             console.error(err)
         }
@@ -41,7 +49,7 @@ if (process.env.NODE_ENV != 'test') {
 
 process.on('SIGINT', () => {
     console.log('\nShutting down from SIGINT (Ctrl-C)')
-    httpServer.close((error) => {
+    httpsServer.close((error) => {
         if (error) console.error(error.message)
     })
     process.exit(1)
