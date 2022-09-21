@@ -20,7 +20,10 @@ const loginDupla = async (req, res) => {
 }
 
 const getUser = async (req, res) => {
-    res.status(201).json({id: req.body.perfilAcesso.dup_id, nome: req.body.perfilAcesso.dup_nome})
+    res.status(201).json({
+        id: req.body.perfilAcesso.dup_id, 
+        nome: req.body.perfilAcesso.dup_nome,
+        isADM: req.body.perfilAcesso.isADM})
 }
 
 const doLogout = async (req, res) => {
