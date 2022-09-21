@@ -15,7 +15,7 @@ const loginDupla = async (req, res) => {
             })
             .catch(err => res.status(500).json(err.message))
     } else {
-        res.status(400).json('LOGIN WITH BASIC AUTH!')
+        res.status(400).json({type: 'ERRO', message: 'LOGIN WITH BASIC AUTH!'})
     }
 }
 
@@ -28,7 +28,7 @@ const doLogout = async (req, res) => {
         sameSite: 'none',
         secure: true,
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7)})
-    res.status(201).json('LOGOUT SUCCESS')
+    res.status(201).json({type: 'SUCCESS', message: 'LOGOUT SUCCESS'})
 }
 
 module.exports.doLogout = doLogout

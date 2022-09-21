@@ -5,7 +5,7 @@ const sql_login = 'select id, nome from dupla where usuario = $1 and password = 
 
 const loginDupla = async (params) => {
     const {user, pass} = params
-    result = await db.query(sql_login, [user, pass])
+    result = await db.query(sql_login, [user.toUpperCase(), pass.toUpperCase()])
     if (!result.rows.length) throw new Error("USUÁRIO OU SENHA INVÁLIDOS!")
     else {
         let perfilAcesso = result.rows[0]
