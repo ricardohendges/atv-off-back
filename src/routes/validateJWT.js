@@ -9,7 +9,8 @@ const verifyJWTAuth = (req, res, next) => {
         if (err) {
             return res.status(500).json({type: 'API', message:'INVALID_TOKEN', detail: '' })
         } else {
-            req.body = decoded.perfilAcesso
+            req.body.perfilAcesso = decoded.perfilAcesso
+            req.body.perfilAcesso.isADM = decoded.perfilAcesso.dup_id == 99
             next()
         }
     })

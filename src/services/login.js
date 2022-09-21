@@ -1,7 +1,7 @@
 const db = require('../configs/db')
 const jwt = require('jsonwebtoken')
 
-const sql_login = 'select id, nome from dupla where usuario = $1 and password = $2 '
+const sql_login = 'select dup_id, dup_nome from dupla where dup_usuario = $1 and dup_password = $2 '
 
 const loginDupla = async (params) => {
     const {user, pass} = params
