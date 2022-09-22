@@ -38,11 +38,7 @@ const postSubmissao = async (params) => {
     const dup_id = params.perfilAcesso.dup_id
     const { atv_id, codigo, status } = params
     const dataAtual = new Date()
-    result = await db.query(sql_insertSubmissao, [dup_id, atv_id, codigo, status, dataAtual])
-    return {
-        total: result.rows.length,
-        submissao: result.rows
-    }
+    return await db.query(sql_insertSubmissao, [dup_id, atv_id, codigo, status, dataAtual])
 }
 
 const sql_updateSubmissao = 

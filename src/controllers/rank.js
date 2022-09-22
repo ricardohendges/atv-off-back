@@ -26,7 +26,7 @@ const getRank = async (req, res) => {
                 return atv
             })
             dupla.finalizadas = dupla.atividades.filter(d => d.status == 'Accepted').length
-            dupla.pontos = dupla.atividades.reduce((a,b) => (a.pontos||0) + (b.pontos||0))
+            dupla.pontos = dupla.atividades.map(a => a.pontos).reduce((a,b) => (a||0)+(b||0))
             return dupla
         })
         rank.duplas.sort((a, b) => {
