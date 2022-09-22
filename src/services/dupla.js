@@ -1,6 +1,6 @@
 const db = require('../configs/db')
 
-const sql_getduplas = 'select dup_id, dup_nome, dup_first_access from dupla WHERE dup_id <> 99'
+const sql_getduplas = 'select dup_id, dup_nome, dup_first_access, dup_password from dupla WHERE dup_id <> 99'
 
 const getduplas = async () => {
     result = await db.query(sql_getduplas)

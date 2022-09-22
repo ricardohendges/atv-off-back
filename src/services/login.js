@@ -5,7 +5,7 @@ const sql_login = 'select dup_id, dup_nome, dup_first_access from dupla where du
 
 const loginDupla = async (params) => {
     const {user, pass} = params
-    result = await db.query(sql_login, [user.toUpperCase(), pass.toUpperCase()])
+    result = await db.query(sql_login, [user.toUpperCase(), pass])
     if (!result.rows.length) throw new Error("USUÁRIO OU SENHA INVÁLIDOS!")
     else if (result.rows[0].dup_first_access) throw {status: 300, message: "PRIMEIRO ACESSO!!!"}
     else {
