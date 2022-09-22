@@ -2,7 +2,8 @@ CREATE TABLE dupla (
     dup_id int primary key not null,
     dup_nome varchar(50) not null,
     dup_usuario varchar(10) not null,
-    dup_password varchar(10) not null
+    dup_password varchar(10) not null,
+    dup_first_access BOOLEAN default '1' not null
 );
 
 CREATE TABLE atividade (
@@ -17,7 +18,7 @@ CREATE TABLE atividade (
 );
 
 CREATE TABLE exemplo (
-    exe_id int primary key not null,
+    exe_id SERIAL primary key not null,
     atv_id int not null,
     exe_entrada text not null,
     exe_saida text not null
@@ -74,7 +75,7 @@ insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
            values (99, 'BOSS RICARDO!', 'ADMIN', '2468555');
 
 insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (1, 'A', 1, 1234, 'atividade 1', 'descrição completa', 'entradas ... bla', 'saidas... bla');
+               values (1, 'A', 1, 1234, 'atividade 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et tortor at risus viverra adipiscing at in. Tristique risus nec feugiat in fermentum posuere urna nec tincidunt. Turpis egestas maecenas pharetra convallis posuere morbi leo urna. Vitae purus faucibus ornare suspendisse sed nisi lacus sed. In nulla posuere sollicitudin aliquam ultrices sagittis. Phasellus egestas tellus rutrum tellus. Phasellus faucibus scelerisque eleifend donec. Eget mi proin sed libero enim sed. Feugiat nibh sed pulvinar proin gravida hendrerit lectus.', 'Lectus arcu bibendum at varius vel pharetra vel turpis. Nunc scelerisque viverra mauris in aliquam sem fringilla. Dictumst quisque sagittis purus sit amet volutpat consequat. Aliquet bibendum enim facilisis gravida neque convallis. Lectus quam id leo in vitae turpis massa sed elementum. Condimentum mattis pellentesque id nibh. Risus ultricies tristique nulla aliquet enim tortor at auctor. Augue interdum velit euismod in. Cursus sit amet dictum sit. Enim nunc faucibus a pellentesque sit. Molestie a iaculis at erat pellentesque adipiscing commodo elit at. Dui vivamus arcu felis bibendum ut tristique et egestas. Nulla pellentesque dignissim enim sit. Tempor nec feugiat nisl pretium. Ac odio tempor orci dapibus ultrices in iaculis.', 'Fringilla urna porttitor rhoncus dolor purus non enim praesent. Posuere morbi leo urna molestie at elementum eu. Eu feugiat pretium nibh ipsum consequat nisl. At auctor urna nunc id cursus metus aliquam eleifend mi. Et ligula ullamcorper malesuada proin libero nunc consequat interdum varius. Netus et malesuada fames ac. Ullamcorper eget nulla facilisi etiam dignissim diam. Viverra orci sagittis eu volutpat odio facilisis. Pellentesque diam volutpat commodo sed. Ultricies lacus sed turpis tincidunt id. Dui id ornare arcu odio ut sem nulla pharetra diam. Augue neque gravida in fermentum et sollicitudin ac. Mauris nunc congue nisi vitae suscipit tellus. Netus et malesuada fames ac turpis egestas maecenas pharetra. Fusce id velit ut tortor pretium. Convallis convallis tellus id interdum velit. Ultrices eros in cursus turpis massa tincidunt dui. Dui nunc mattis enim ut tellus elementum sagittis.');
 insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
                values (2, 'B', 1, 1234, 'atividade 2', 'descrição completa', 'entradas ... bla', 'saidas... bla');
 insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
@@ -93,3 +94,10 @@ insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_ti
                values (9, 'I', 1, 1234, 'atividade 9', 'descrição completa', 'entradas ... bla', 'saidas... bla');
 insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
                values (10, 'J', 1, 1234, 'atividade 10', 'descrição completa', 'entradas ... bla', 'saidas... bla');
+
+insert into exemplo (atv_id, exe_entrada, exe_saida)
+           values (1, '1 2', '3');
+insert into exemplo (atv_id, exe_entrada, exe_saida)
+           values (1, '10 20', '30');
+insert into exemplo (atv_id, exe_entrada, exe_saida)
+           values (2, '00', '31');

@@ -11,10 +11,10 @@ Dado um inteiro positivo N, você deve escrever um programa para determinar o me
 Por exemplo, para N = 10 a resposta é 3, pois é possível escrever N como a soma de três números fatoriais: 10 = 3! + 2! + 2!. Para N = 25 a resposta é 2, pois é possível escrever N como a soma de dois números fatoriais: 25 = 4! + 1!.
 ', 'A entrada consiste de uma única linha que contém um inteiro N (1 ≤ N ≤ 105).', 'Seu programa deve produzir uma única linha com um inteiro representando a menor quantidade de números fatoriais cuja soma é igual ao valor de N.');
 
-insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (1, 'A', 1, 1234, 'atividade 1', 'descrição completa', 'entradas ... bla', 'saidas... bla');
-insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (2, 'B', 1, 1234, 'atividade 2', 'descrição completa', 'entradas ... bla', 'saidas... bla');
+-- insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
+--                values (1, 'A', 1, 1234, 'atividade 1', 'descrição completa', 'entradas ... bla', 'saidas... bla');
+-- insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
+--                values (2, 'B', 1, 1234, 'atividade 2', 'descrição completa', 'entradas ... bla', 'saidas... bla');
 insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
                values (3, 'C', 1, 1234, 'atividade 3', 'descrição completa', 'entradas ... bla', 'saidas... bla');
 insert into atividade (atv_id, atv_code, atv_dificuldade, atv_quantidade, atv_titulo, atv_descricao, atv_entrada, atv_saida)

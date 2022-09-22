@@ -1,6 +1,6 @@
 const db = require('../configs/db')
 
-const sql_getduplas = 'select dup_id, dup_nome from dupla WHERE dup_id <> 99'
+const sql_getduplas = 'select dup_id, dup_nome, dup_first_access from dupla WHERE dup_id <> 99'
 
 const getduplas = async () => {
     result = await db.query(sql_getduplas)
@@ -10,4 +10,13 @@ const getduplas = async () => {
     }
 }
 
+const sql_updateDupla = 
+`update dupla set dup_password = $1, dup_first_access = '0'  where dup_usuario = $2 and dup_password = $3`
+
+const patchduplas = async (param) => {
+    const { oldPass, newPass, User } = param
+    return await db.query(sql_updateDupla, [newPass, User.toUpperCase(), oldPass])
+}
+    
+module.exports.patchduplas = patchduplas
 module.exports.getduplas = getduplas

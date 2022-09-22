@@ -13,7 +13,7 @@ const loginDupla = async (req, res) => {
                     expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7)})
                 res.status(201).json(ret)
             })
-            .catch(err => res.status(500).json(err.message))
+            .catch(err => res.status(err.status? err.status : 500).json(err.message))
     } else {
         res.status(400).json({type: 'ERRO', message: 'LOGIN WITH BASIC AUTH!'})
     }
