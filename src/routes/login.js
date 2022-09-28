@@ -5,4 +5,3 @@ module.exports = (app, auth) => {
     app.get('/logout', loginController.doLogout)
     app.get('/user', auth, loginController.getUser)
 }
-

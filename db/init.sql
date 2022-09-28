@@ -62,7 +62,7 @@ insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
 insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
            values (14, 'CRISTIAN FELDKIRCHER && DOUGLAS CUCHI', 'CRIEDOU', '123456');
 insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (15, 'GUSTAVO WIEBBELING && RENAN SCHABARUM', 'GusuarioEN', '123456');
+           values (15, 'GUSTAVO WIEBBELING && RENAN SCHABARUM', 'GUSEREN', '123456');
 insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
            values (16, 'LEANDRO CANELLO && THIAGO VANAZZI', 'LEAETHI', '123456');
 insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
