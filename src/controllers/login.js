@@ -5,6 +5,7 @@ const loginDupla = async (req, res) => {
     if (req.headers && req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1) {
         const login = decodeURIComponent(escape(atob(req.headers.authorization.substr(req.headers.authorization.indexOf('Basic') + 6))))
         let posPonto = login.indexOf(':')
+        console.log(req.connection.remoteAddress, login)
         loginServices.loginDupla({user: login.substr(0, posPonto), pass: login.substr(posPonto+1)})
             .then(ret => {
                 res.cookie('auth', ret.token, {

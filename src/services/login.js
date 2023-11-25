@@ -5,7 +5,7 @@ const sql_login = 'select dup_id, dup_nome, dup_first_access from dupla where du
 
 const loginDupla = async (params) => {
     const {user, pass} = params
-    result = await db.query(sql_login, [user.toUpperCase(), pass])
+    result = await db.query(sql_login, [user, pass])
     let dtInicio = new Date(process.env.INICIO_TORNEIO)
     dtInicio.setHours(dtInicio.getHours() + 3)
     let dtAtual = new Date()

@@ -15,7 +15,7 @@ const sql_updateDupla =
 
 const patchduplas = async (param) => {
     const { oldPass, newPass, User } = param
-    return await db.query(sql_updateDupla, [newPass, User.toUpperCase(), oldPass])
+    return await db.query(sql_updateDupla, [newPass, User, oldPass])
 }
     
 module.exports.patchduplas = patchduplas
