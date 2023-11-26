@@ -1,243 +1,129 @@
-CREATE TABLE dupla (
-    dup_id int primary key not null,
-    dup_nome varchar(50) not null,
-    dup_usuario varchar(20) not null,
-    dup_password varchar(10) not null,
-    dup_first_access BOOLEAN default '1' not null
+-- Criar a tabela para cadastro de cursos (Sistemas de Informação, Contabilidade, Administração, Etc...)
+CREATE table t_curso (
+    cur_id SERIAL primary key not null,
+    cur_nome varchar(50) not null
 );
-
-CREATE TABLE atividade (
-    atv_id int primary key not null,
-    atv_code varchar(1) not null,
-    atv_dificuldade integer not null,
-    -- atv_quantidade integer not null,
-    atv_titulo varchar(30) not null,
+insert into t_curso (cur_nome) values ('Sistemas de Informação');
+-- Criar a tabela para cadastro de materias (Linguagem de Programação, IA, Algoritmos e Programação I e II)
+CREATE TABLE t_materia (
+    mat_id SERIAL PRIMARY KEY,
+    mat_nome VARCHAR(100),
+    cur_id INT REFERENCES t_curso(cur_id) not null
+);
+insert into t_materia (mat_nome, cur_id) values ('Algoritmos e Programação I', 1);
+insert into t_materia (mat_nome, cur_id) values ('Algoritmos e Programação II', 1);
+insert into t_materia (mat_nome, cur_id) values ('Linguagem de Programação III', 1);
+insert into t_materia (mat_nome, cur_id) values ('Linguagem de Programação Visual', 1);
+insert into t_materia (mat_nome, cur_id) values ('Inteligencia Artificial', 1);
+insert into t_materia (mat_nome, cur_id) values ('Teoria Geral de Sistemas', 1);
+insert into t_materia (mat_nome, cur_id) values ('Ecossistemas de Inovação', 1);
+-- Criar a tabela para cadastro de permissões do Sistema (ADM, PROFESSOR, ALUNO, COORDENADOR, ETC...)
+CREATE table t_permissao (
+    per_id SERIAL primary key not null,
+    per_nome varchar(50) not null,
+    per_observacao text
+);
+insert into t_permissao (per_nome) values ('Admin');
+insert into t_permissao (per_nome) values ('Professor');
+insert into t_permissao (per_nome) values ('Aluno');
+-- Criar a tabela para cadastro de usuarios
+CREATE table t_usuario (
+    usu_id SERIAL primary key not null,
+    usu_nome varchar(75) not null,
+    usu_username varchar(40) not null unique,
+    usu_password text,
+    dup_first_access BOOLEAN default '1' not null,
+    usu_fone varchar(30),
+    usu_email varchar(60),
+    usu_recover varchar(60)
+);
+insert into t_usuario (usu_id, usu_nome, usu_username, usu_password) 
+               values (1, 'Ricardo Hendges', 'ricardo.hendges', '662bc28943f9cf2b29d549a16c2eaba89e85073e0b1270b19d69edea6609936714c61658ac7c6a90dc7779dd0f44bfac9b8e3a9e398943fff4e3cc45eb93d8f5');
+-- Criar a tabela para cadastro de salts dos usuarios para maior segurança, table criada separada.
+CREATE table t_salt (
+    usu_id INT REFERENCES t_usuario(usu_id) primary key,
+    sal_salt text not null
+);
+insert into t_salt (usu_id, sal_salt) 
+            values (1, 'd9205b8ea0b6a37773633a3bb4d7dd9e');
+-- Criar a tabela para vinculo entre usuarios e permissões
+CREATE table t_usu_per (
+    per_id INT REFERENCES t_permissao(per_id) not null,
+    usu_id INT REFERENCES t_usuario(usu_id) not null,
+    CONSTRAINT usu_per_unique UNIQUE (per_id, usu_id)
+);
+insert into t_usu_per (per_id, usu_id) values (1, 1);
+-- Criar a tabela para cadastro do ano/semestre
+CREATE table t_ano (
+    ano_id SERIAL primary key not null,
+    ano_valor int not null,
+    ano_semestre int not null,
+    CONSTRAINT ano_semestre_unique UNIQUE (ano_valor, ano_semestre)
+);
+insert into t_ano (ano_valor, ano_semestre) values (2024, 1);
+insert into t_ano (ano_valor, ano_semestre) values (2024, 2);
+-- Criar a tabela para cadastro e efetivação de usuario como Professor vinculando-o há materia
+CREATE table t_pro_mat (
+    prm_id SERIAL primary key not null,
+    mat_id INT REFERENCES t_materia(mat_id) not null,
+    usu_id INT REFERENCES t_usuario(usu_id) not null,
+    ano_id INT REFERENCES t_ano(ano_id) not null,
+    prm_situacao varchar(50) default 'Aguardando' not null,
+    prm_observacao text,
+    CONSTRAINT prof_unico UNIQUE (mat_id, usu_id, ano_id)
+);
+-- Criar a tabela para cadastro e efetivação de usuarios como Aluno em Determinada Matéria
+CREATE table t_alu_mat (
+    alm_id SERIAL primary key not null,
+    prm_id INT REFERENCES t_pro_mat(prm_id) not null,
+    usu_id INT REFERENCES t_usuario(usu_id) not null,
+    alm_situacao varchar(50) default 'Cursando' not null,
+    alm_observacao text,
+    CONSTRAINT aluno_unico UNIQUE (prm_id, usu_id)
+);
+-- Criar a tabela para cadastro de trabalhos de uma Matéria
+CREATE table t_trabalho (
+    tra_id SERIAL primary key not null,
+    prm_id INT REFERENCES t_pro_mat(prm_id) not null,
+    tra_descricao varchar(100) not null,
+    tra_situacao varchar(30) default 'Rascunho' not null
+);
+-- Criar a tabela de notas pelo trabalho executado.
+CREATE table t_notas (
+    not_id SERIAL primary key not null,
+    tra_id INT REFERENCES t_trabalho(tra_id) not null,
+    alm_id INT REFERENCES t_alu_mat(alm_id) not null,
+    not_valor numeric (10, 2) default 0 not null,
+    not_situacao varchar(30) default 'Processando' not null,
+    not_observacao text,
+    CONSTRAINT nota_unica UNIQUE (tra_id, alm_id)
+);
+-- Criar a tabela de atividades para um determinado Trabalho
+CREATE table t_atividade (
+    atv_id SERIAL primary key not null,
+    tra_id INT REFERENCES t_trabalho(tra_id) not null,
+    atv_codigo varchar(10) not null,
+    atv_titulo varchar(40) not null,
     atv_descricao text not null,
     atv_entrada text not null,
-    atv_saida text not null
+    atv_saida text not null,
+    atv_imagem varchar(255),
+    CONSTRAINT atividade_unica UNIQUE (tra_id, atv_codigo)
 );
-
-CREATE TABLE exemplo (
+-- Criar a tabela de exemplos de entrada/saida para uma atividade
+CREATE table t_exemplo (
     exe_id SERIAL primary key not null,
-    atv_id int not null,
+    atv_id INT REFERENCES t_atividade(atv_id) not null,
     exe_entrada text not null,
     exe_saida text not null
 );
-
-CREATE TABLE submissoes (
+-- Criar a tabela de submissoes dos alunos para determinada atividade
+CREATE table t_submissao (
     sub_id SERIAL primary key not null,
-    dup_id int not null,
-    atv_id int not null,
-    sub_codigo text not null,
-    sub_status varchar(20) not null,
-    sub_data timestamp not null
+    alm_id INT REFERENCES t_alu_mat(alm_id) not null,
+    atv_id INT REFERENCES t_atividade(atv_id) not null,
+    sub_status varchar(50) default 'processing...' not null,
+    sub_data timestamp not null,
+    sub_feedback text,
+    sub_nota numeric (10, 2) default 0 not null
 );
-
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (1, 'ARTHUR VINÍCIUS TOCHETTO CARMINATTI', 'arthur.carminatti', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (2, 'ARTUR BRESOLIN', 'artur.bresolin', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (3, 'BRUNO ELIAN AREND', 'bruno.arend', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (4, 'BRUNO FELIPE BARETA', 'bruno.bareta', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (5, 'BRUNO VIZENTINI BALEN', 'bruno.balen', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (6, 'CARLOS ANDRÉ SCHLEICHER WEBER', 'carlos.weber', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (7, 'EDUARDO AFFONSO SCHÜTZ FIGUEIRÓ', 'eduardo.figueiro', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (8, 'FELIPE POCEBON DAMO', 'felipe.damo', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (9, 'GABRIEL SILVEIRA BOTEZINI', 'gabriel.botezini', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (10, 'GUSTAVO HÜBNER', 'gustavo.hubner', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (11, 'IGOR HAAS', 'igor.haas', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (12, 'ISAI GABRIEL MEDINA PEREIRA', 'isai.pereira', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (19, 'JOÃO VITOR MARTINS', 'joao.martins', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (13, 'KHAUAN GABRIEL VEIT LIBERALI', 'khauan.liberali', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (14, 'LUIZ CARLOS ORLANDI JUNIOR', 'luiz.junior', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (15, 'MATHEUS HENRIQUE FIORINI', 'matheus.fiorini', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (16, 'NAYARA BACKES FLOSS', 'nayara.floss', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (17, 'TAINARA PAULA SIMON', 'tainara.simon', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (18, 'VINÍCIUS GONÇALVES', 'vinicius.goncalves', '123456');
-insert into dupla (dup_id, dup_nome, dup_usuario, dup_password)
-           values (99, 'BIG BOSS', 'admin', '246855');
-
--- ***********************************************************
--- ***********************************************************
-
-
-insert into atividade (atv_id, atv_code, atv_dificuldade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (1, 'A', 1, 
-                       -- atv_titulo
-                       'Idade em Dias', 
-                       -- atv_descricao
-                       'Leia um valor inteiro correspondente à idade de uma pessoa em dias e informe-a em anos, meses e dias
-
-Obs.: apenas para facilitar o cálculo, considere todo ano com 365 dias e todo mês com 30 dias. Nos casos de teste nunca haverá uma situação que permite 12 meses e alguns dias, como 360, 363 ou 364. Este é apenas um exercício com objetivo de testar raciocínio matemático simples.',
-                       -- atv_entrada
-                       'O arquivo de entrada contém um valor inteiro.', 
-                       -- atv_saida
-                       'Imprima a saída conforme exemplo fornecido.');
-
--- ***********************************************************
--- ***********************************************************
-
-insert into atividade (atv_id, atv_code, atv_dificuldade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (2, 'B', 1, 
-                       -- atv_titulo
-                       'Duas Notas', 
-                       -- atv_descricao
-                       'Gilberto é um famoso vendedor de esfirras na região. Porém, apesar de todos gostarem de suas esfirras, ele só sabe dar o troco com duas notas, ou seja, nem sempre é possível receber o troco certo. Para facilitar a vida de Gil, escreva um programa para ele que determine se é possível ou não devolver o troco exato utilizando duas notas.
-
-As notas disponíveis são: 2, 5, 10, 20, 50 e 100.',
-                       -- atv_entrada
-                       'A entrada deve conter o valor inteiro N da compra realizada pelo cliente e, em seguida, o valor inteiro M pago pelo cliente. A entrada termina com N = M = 0.', 
-                       -- atv_saida
-                       'Seu programa deverá imprimir "possible" se for possível devolver o troco exato ou "impossible" se não for possível.'
-);
-
-
--- ***********************************************************
--- ***********************************************************
-
-insert into atividade (atv_id, atv_code, atv_dificuldade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (3, 'C', 1, 
-                       -- atv_titulo
-                       'Cara ou Coroa', 
-                       -- atv_descricao
-                       'João e Maria são amigos desde que se conheceram na creche. Desde então, eles compartilham uma rotina de brincadeiras: todas as vezes que eles se encontram, eles jogam Cara ou Coroa com uma moeda, e quem ganhar tem o privilégio de decidir quais brincadeiras eles irão jogar durante o dia. Maria sempre escolhe cara, e João sempre escolhe coroa.
-
-Hoje em dia eles estão na faculdade, mas continuam sendo bons amigos. Sempre que se encontram, eles ainda jogam Cara ou Coroa, e o vencedor decide que filme assistir, ou em que restaurante jantar, e assim por diante.
-
-Ontem Maria contou a João que ela guarda um registro de todas as vezes que eles jogaram, desde os tempos da creche. João ficou espantado. Porém João está estudando Ciência da Computação e decidiu que essa era uma boa oportunidade para mostrar a Maria suas habilidades em programação, escrevendo um programa que mostrasse o número de vezes que cada um deles venceu ao longo de todos esses anos.',
-                       -- atv_entrada
-                       'A entrada contém vários casos de teste. A primeira linha de um caso de teste contém um único inteiro N indicando o número de vezes jogadas (1 ≤ N ≤ 10000). A linha seguinte contém N inteiros Ri, separados por um espaço, descrevendo a lista de resultados. Se Ri = 0 então Maria venceu o iésimo jogo, se Ri = 1 então João venceu o iésimo jogo (1 ≤ i ≤ N). O fim da entrada é indicado por N = 0.', 
-                       -- atv_saida
-                       'Para cada caso de teste na entrada, seu programa deverá escrever uma linha contendo a sentença "Mary won X times and John won Y times" ("Maria venceu X vezes e Joao venceu Y vezes"), onde 0 ≤ X e 0 ≤ Y.'
-);
-
-
--- ***********************************************************
--- ***********************************************************
-
-insert into atividade (atv_id, atv_code, atv_dificuldade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (4, 'D', 1, 
-                       -- atv_titulo
-                       'Divisão da Nlogônia', 
-                       -- atv_descricao
-                       'Depois de séculos de escaramuças entre os quatro povos habitantes da Nlogônia, e de dezenas de anos de negociações envolvendo diplomatas, políticos e as forças armadas de todas as partes interessadas, com a intermediação da ONU, OTAN, G7 e SBC, foi finalmente decidida e aceita por todos a maneira de dividir o país em quatro territórios independentes.
-
-Ficou decidido que um ponto, denominado ponto divisor, cujas coordenadas foram estabelecidas nas negociações, definiria a divisão do país, da seguinte maneira. Duas linhas, ambas contendo o ponto divisor, uma na direção norte-sul e uma na direção leste-oeste, seriam traçadas no mapa, dividindo o país em quatro novos países. Iniciando no quadrante mais ao norte e mais ao oeste, em sentido horário, os novos países seriam chamados de Nlogônia do Noroeste, Nlogônia do Nordeste, Nlogônia do Sudeste e Nlogônia do Sudoeste.
-
-A ONU determinou que fosse disponibilizada uma página na Internet para que os habitantes pudessem consultar em qual dos novos países suas residências estão, e você foi contratado para ajudar a implementar o sistema.',
-                       -- atv_entrada
-                       'A entrada contém vários casos de teste. A primeira linha de um caso de teste contém um inteiro K indicando o número de consultas que serão realizadas (0 < K ≤ 103). A segunda linha de um caso de teste contém dois números inteiros N e M representando as coordenadas do ponto divisor (-104 < N, M < 104). Cada uma das K linhas seguintes contém dois inteiros X e Y representando as coordenadas de uma residência (-104 ≤ X, Y ≤ 104).Em todas as coordenadas dadas, o primeiro valor  corresponde à direção leste-oeste, e o segundo valor corresponde à direção norte-sul.
-
-O final da entrada é indicado por uma linha que contém apenas o número zero.', 
-                       -- atv_saida
-                       'Para cada caso de teste da entrada seu programa deve imprimir uma linha contendo:
-
-a palavra divisa se a residência encontra-se em cima de uma das linhas divisórias (norte-sul ou leste-oeste);
-NO se a residência encontra-se na Nlogônia do Noroeste;
-NE se a residência encontra-se na Nlogônia do Nordeste;
-SE se a residência encontra-se na Nlogônia do Sudeste;
-SO se a residência encontra-se na Nlogônia do Sudoeste.'
-);
-
-
--- ***********************************************************
--- ***********************************************************
-
-insert into atividade (atv_id, atv_code, atv_dificuldade, atv_titulo, atv_descricao, atv_entrada, atv_saida)
-               values (5, 'E', 1, 
-                       -- atv_titulo
-                       'Dama', 
-                       -- atv_descricao
-                       'O jogo de xadrez possui várias peças com movimentos curiosos: uma delas é a dama, que pode se mover qualquer quantidade de casas na mesma linha, na mesma coluna, ou em uma das duas diagonais, conforme exemplifica a figura abaixo:
-                       
-O grande mestre de xadrez Kary Gasparov inventou um novo tipo de problema de xadrez: dada a posição de uma dama em um tabuleiro de xadrez vazio (ou seja, um tabuleiro 8 × 8, com 64 casas), de quantos movimentos, no mínimo, ela precisa para chegar em outra casa do tabuleiro?
-
-Kary achou a solução para alguns desses problemas, mas teve dificuldade com outros, e por isso pediu que você escrevesse um programa que resolve esse tipo de problema.  ',
-                       -- atv_entrada
-                       'A entrada contém vários casos de teste. A primeira e única linha de cada caso de teste contém quatro inteiros X1, Y1, X2 e Y2 (1 ≤ X1, Y1, X2, Y2 ≤ 8). A dama começa na casa de coordenadas (X1, Y1), e a casa de destino é a casa de coordenadas(X2, Y2). No tabuleiro, as colunas são numeradas da esquerda para a direita de 1 a 8 e as linhas de cima para baixo também de 1 a 8. As coordenadas de uma casa na linha X e coluna Y são (X, Y ).
-
-O final da entrada é indicado por uma linha contendo quatro zeros.', 
-                       -- atv_saida
-                       'Para cada caso de teste da entrada seu programa deve imprimir uma única linha na saída, contendo um número inteiro, indicando o menor número de movimentos necessários para a dama chegar em sua casa de destino.'
-);
-
-
-insert into exemplo (atv_id, exe_entrada, exe_saida)
-           values (1, '400', '1 ano(s)
-1 mes(es)
-5 dia(s)');
-insert into exemplo (atv_id, exe_entrada, exe_saida)
-           values (1, '800', '2 ano(s)
-2 mes(es)
-10 dia(s)');
-insert into exemplo (atv_id, exe_entrada, exe_saida)
-           values (1, '30', '0 ano(s)
-1 mes(es)
-0 dia(s)');
--- atividade 2 **********************************************
- insert into exemplo (atv_id, exe_entrada, exe_saida)
-            values (2, '11 23
-500 650
-100 600
-9948 9963
-1 2
-2 4
-0 0', 'possible
-possible
-impossible
-possible
-impossible
-impossible');
--- atividade 3 **********************************************
-insert into exemplo (atv_id, exe_entrada, exe_saida)
-           values (3, '5
-0 0 1 0 1
-6
-0 0 0 0 0 1
-0', 'Mary won 3 times and John won 2 times
-Mary won 5 times and John won 1 times');
--- atividade 4 **********************************************
-insert into exemplo (atv_id, exe_entrada, exe_saida)
-           values (4, '3
-2 1
-10 10
--10 1
-0 33
-4
--1000 -1000
--1000 -1000
-0 0
--2000 -10000
--999 -1001
-0', 'NE
-divisa
-NO
-divisa
-NE
-SO
-SE');
--- atividade 5 **********************************************
-insert into exemplo (atv_id, exe_entrada, exe_saida)
-           values (5, '4 4 6 2
-3 5 3 5
-5 5 4 3
-0 0 0 0', '1
-0
-2');
