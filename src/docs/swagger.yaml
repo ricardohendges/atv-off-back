@@ -91,7 +91,73 @@
         "tags": [
           "CURSO"
         ],
+        "summary": "Consulta lista de Cursos",
         "description": "",
+        "responses": {
+          "200": {
+            "description": "Sucesso!",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "number",
+                  "example": 1
+                },
+                "curso": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "cur_id": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "cur_nome": {
+                        "type": "string",
+                        "example": "Sistemas de Informação"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Obrigatório estar autenticado!"
+          },
+          "403": {
+            "description": "Perfil de acesso inválido"
+          },
+          "500": {
+            "description": "Problema no servidor."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CURSO"
+        ],
+        "summary": "Insere novo curso",
+        "description": "",
+        "parameters": [
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados para inserir curso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "Administração"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Sucesso!",
