@@ -8,7 +8,10 @@ require('dotenv').config()
 
 const PORT = process.env.PORT_SERVER || 3000
 const app = express()
+app.use(cookie())
+app.use(express.json())
 
+// controle de cors
 let domains = process.env.APPLICATION_DOMAIN || ['https://localhost:8080', 'https://192.168.1.100:8080', 'https://10.102.10.56:8080']
 const corsOptions = {
     origin: function (origin, callback) {
@@ -18,34 +21,30 @@ const corsOptions = {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS', 
     credentials: true
 }
-
-app.use(cookie())
 app.use(cors(corsOptions))
-app.use(express.json())
-
+// Rota para documentação
+require('./configs/swagger')
+app.use('/docs', express.static('src/views'))
+app.use('/docs/swagger.yaml', express.static('src/docs/swagger.yaml'))
 // Carrega todas rotas
 require('./routes')(app)
-app.get('/', (req, res) => res.status(200).send('Maratona-BACK (x) UP!'))
+app.get('/', (req, res) => res.status(200).send('Gestor API (x) UP!'))
 
+// Controle HTTPS
 const fs = require('fs');
 const privateKey  = fs.readFileSync('./src/private/server.pem', 'utf8');
 const certificate = fs.readFileSync('./src/private/server.crt', 'utf8');
 const credentials = {key: privateKey, cert: certificate};
-
-// const httpServer = http.createServer(app)
 const httpsServer = https.createServer(credentials, app);
-// httpsServer.listen(8443)
 
-if (process.env.NODE_ENV != 'test') {
-    httpsServer.listen(PORT, async () => {
-        try {
-            const { address, port, family } = httpsServer.address()
-            console.log(`App is running: ${family} https://${family === 'IPv6' ? `[${address}]` : address}:${port}`)
-        } catch (err) {
-            console.error(err)
-        }
-    })
-}
+httpsServer.listen(PORT, async () => {
+    try {
+        const { address, port, family } = httpsServer.address()
+        console.log(`App is running: ${family} https://${family === 'IPv6' ? `[${address}]` : address}:${port}`)
+    } catch (err) {
+        console.error(err)
+    }
+})
 
 process.on('SIGINT', () => {
     console.log('\nShutting down from SIGINT (Ctrl-C)')

@@ -1,0 +1,396 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Gestor de Trabalhos",
+    "description": "Documentação da API CST - Portal de clientes DASS"
+  },
+  "basePath": "",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/atividades": {
+      "get": {
+        "tags": [
+          "ATIVIDADE"
+        ],
+        "summary": "Grava serviço para um protocolo",
+        "description": "",
+        "parameters": [
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados para realizar o serviço",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "acao": {
+                  "type": "number",
+                  "example": 1
+                },
+                "protocolo": {
+                  "type": "number",
+                  "example": 249839
+                },
+                "observacao": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Operação realizada com sucesso."
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "API"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "MISSING_BODY_FIELDS"
+                },
+                "detail": {
+                  "type": "string",
+                  "example": "Os campos acao e protocolo são obrigatórios"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Motivo não encontrado!"
+          },
+          "500": {
+            "description": "Problema no servidor."
+          }
+        }
+      }
+    },
+    "/curso": {
+      "get": {
+        "tags": [
+          "CURSO"
+        ],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Sucesso!",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "number",
+                  "example": 1
+                },
+                "curso": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "cur_id": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "cur_nome": {
+                        "type": "string",
+                        "example": "Sistemas de Informação"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Obrigatório estar autenticado!"
+          },
+          "403": {
+            "description": "Perfil de acesso inválido"
+          },
+          "500": {
+            "description": "Problema no servidor."
+          }
+        }
+      }
+    },
+    "/dupla": {
+      "get": {
+        "tags": [
+          "DUPLA"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "DUPLA"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "oldPass": {
+                  "example": "any"
+                },
+                "newPass": {
+                  "example": "any"
+                },
+                "confirmNew": {
+                  "example": "any"
+                },
+                "User": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Solicitação Inválida"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/exemplos/{atv_id}": {
+      "get": {
+        "tags": [
+          "EXEMPLO"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "atv_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "AUTH"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "400": {
+            "description": "Solicitação Inválida"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "get": {
+        "tags": [
+          "AUTH"
+        ],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Criado"
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "AUTH"
+        ],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Criado"
+          }
+        }
+      }
+    },
+    "/rank": {
+      "get": {
+        "tags": [
+          "RANK"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/submissao": {
+      "get": {
+        "tags": [
+          "SUBMISSAO"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "SUBMISSAO"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "atv_id": {
+                  "example": "any"
+                },
+                "codigo": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "400": {
+            "description": "Solicitação Inválida"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "SUBMISSAO"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "400": {
+            "description": "Solicitação Inválida"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/submissao/{user}": {
+      "get": {
+        "tags": [
+          "SUBMISSAO"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    }
+  }
+}
