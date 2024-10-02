@@ -17,8 +17,9 @@ const getRank = async (req, res) => {
                 let qtdeTentado = submissoes.submissao.filter(c => c.atv_id == b.atv_id && c.dup_id == a.dup_id).length
                 atv.qtdeTentado = qtdeTentado ? qtdeTentado : null
                 let correta = submissoes.submissao.find(c => c.atv_id == b.atv_id && c.dup_id == a.dup_id && c.sub_status == 'Accepted')
+                let fila = submissoes.submissao.find(c => c.atv_id == b.atv_id && c.dup_id == a.dup_id && c.sub_status == '- in queue -')
                 let incorretas = submissoes.submissao.filter(c => c.atv_id == b.atv_id && c.dup_id == a.dup_id && c.sub_status != 'Accepted')
-                atv.status = correta ? 'Accepted' : (atv.qtdeTentado > 0) ? 'Tried' : null
+                atv.status = correta ? 'Accepted' : fila ? 'Queue' : (atv.qtdeTentado > 0) ? 'Erro' : null
                 let inicio = new Date(process.env.INICIO_TORNEIO)
                 let dataFeita = new Date(correta?.sub_data)
                 dataFeita.setHours(dataFeita.getHours() - 3)

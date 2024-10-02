@@ -9,7 +9,7 @@ const getSubmissao = async (req, res) => {
 const postSubmissao = async (req, res) => {
     const params = req.body
     if (params.atv_id && params.codigo && params.status) {
-        atividadeServices.postSubmissao (req.body)
+        atividadeServices.postSubmissao (req.body, req.connection.remoteAddress || req.socket.remoteAddress)
             .then(ret => res.status(201).json({type: 'SUCC', message: 'Submissão enviada com sucesso!'}))
             .catch(err => res.status(500).json(err.message))
     } else {

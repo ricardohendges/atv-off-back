@@ -21,64 +21,26 @@
         "tags": [
           "ATIVIDADE"
         ],
-        "summary": "Grava serviço para um protocolo",
+        "summary": "Consulta lista de atividades",
         "description": "",
-        "parameters": [
-          {
-            "name": "json",
-            "in": "body",
-            "description": "Dados para realizar o serviço",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "acao": {
-                  "type": "number",
-                  "example": 1
-                },
-                "protocolo": {
-                  "type": "number",
-                  "example": 249839
-                },
-                "observacao": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "OK"
-          },
-          "201": {
             "description": "Operação realizada com sucesso."
           },
-          "400": {
-            "description": "Bad request",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "API"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "MISSING_BODY_FIELDS"
-                },
-                "detail": {
-                  "type": "string",
-                  "example": "Os campos acao e protocolo são obrigatórios"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "404": {
-            "description": "Motivo não encontrado!"
+          "500": {
+            "description": "Problema no servidor."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ATIVIDADE"
+        ],
+        "summary": "Insere nova atividade",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso."
           },
           "500": {
             "description": "Problema no servidor."
@@ -280,6 +242,40 @@
             "description": "Erro Interno do Servidor"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "EXEMPLO"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "atv_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "atv_id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
       }
     },
     "/login": {
@@ -330,6 +326,16 @@
         "responses": {
           "201": {
             "description": "Criado"
+          }
+        }
+      }
+    },
+    "/my-ip": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

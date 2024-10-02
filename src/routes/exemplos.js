@@ -7,4 +7,10 @@ module.exports = (app, auth) => {
         */
         //#endregion
     )
+    app.post('/exemplos/:atv_id', auth, exemplosController.postExemplo
+        //#region Documentação
+        /*  #swagger.tags = ['EXEMPLO']
+        */
+        //#endregion
+    )
 }

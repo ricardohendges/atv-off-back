@@ -5,6 +5,7 @@ select submissoes.sub_id,
        submissoes.sub_codigo,
        submissoes.sub_status,
        submissoes.sub_data,
+       submissoes.sub_ip,
        atividade.atv_id, 
        atividade.atv_titulo,
        atividade.atv_code,
@@ -31,14 +32,14 @@ const getSubmissao = async (params, adm) => {
     }
 }
 const sql_insertSubmissao = 
-` insert into submissoes (dup_id, atv_id, sub_codigo, sub_status, sub_data)
-                  values ($1,     $2,     $3,         $4,         $5)`
+` insert into submissoes (dup_id, atv_id, sub_codigo, sub_status, sub_data, sub_ip)
+                  values ($1,     $2,     $3,         $4,         $5,       $6)`
 
-const postSubmissao = async (params) => {
+const postSubmissao = async (params, myIP) => {
     const dup_id = params.perfilAcesso.dup_id
     const { atv_id, codigo, status } = params
     const dataAtual = new Date()
-    return await db.query(sql_insertSubmissao, [dup_id, atv_id, codigo, status, dataAtual])
+    return await db.query(sql_insertSubmissao, [dup_id, atv_id, codigo, status, dataAtual, myIP])
 }
 
 const sql_updateSubmissao = 

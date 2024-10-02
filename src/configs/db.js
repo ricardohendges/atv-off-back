@@ -5,7 +5,7 @@ const pool = new Pool({
     host: 'localhost',
     database: 'horus',
     password: '123456',
-    port: '5434'
+    port: '5432'
 })
 
 module.exports = {

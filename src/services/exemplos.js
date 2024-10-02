@@ -10,4 +10,14 @@ const getExemplo = async (params) => {
     }
 }
 
+const sql_postExemplo = `
+ insert into exemplo (atv_id, exe_entrada, exe_saida)
+              values ($1,     $2,          $3) `;
+
+const postExemplo = async (params) => {
+    let {atv_id, exe_entrada, exe_saida} = params;
+    return await db.query(sql_postExemplo, [atv_id, exe_entrada, exe_saida]);
+}
+
 module.exports.getExemplo = getExemplo
+module.exports.postExemplo = postExemplo

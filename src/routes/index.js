@@ -6,9 +6,10 @@ const loginRoute = require('./login')
 const submissaoRoute = require('./submissao')
 const rankRoute = require('./rank')
 const exemploRoute = require('./exemplos')
+const myIPRoute = require('./myIP')
 
-// const validateJWT = require('../configs/validateJWT')
-const validateJWT = { verifyJWTAuth: async (req, res, next) => { next() } }
+const validateJWT = require('../configs/validateJWT')
+// const validateJWT = { verifyJWTAuth: async (req, res, next) => { next() } }
 
 module.exports = (app) => {
     cursoRoute(app, validateJWT.verifyJWTAuth)
@@ -18,4 +19,5 @@ module.exports = (app) => {
     submissaoRoute(app, validateJWT.verifyJWTAuth)
     rankRoute(app, validateJWT.verifyJWTAuth)
     exemploRoute(app, validateJWT.verifyJWTAuth)
+    myIPRoute(app, validateJWT.verifyJWTAuth)
 }

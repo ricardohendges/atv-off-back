@@ -12,7 +12,7 @@ app.use(cookie())
 app.use(express.json())
 
 // controle de cors
-let domains = process.env.APPLICATION_DOMAIN || ['https://localhost:8080', 'https://localhost:3000', 'https://10.102.10.56:8080']
+let domains = process.env.APPLICATION_DOMAIN || ['https://localhost:8080', 'https://10.102.21.82:8080', 'https://192.168.0.117:8080', 'https://192.168.0.129:8080']
 const corsOptions = {
     origin: function (origin, callback) {
         if (domains.indexOf(origin) !== -1 || !origin) callback(null, true)
